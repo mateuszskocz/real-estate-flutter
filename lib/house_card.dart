@@ -20,10 +20,10 @@ class _HouseCardState extends State<HouseCard> {
 
   Widget get houseCard {
     return SizedBox(
-      width: 390.0,
+      width: 1000.0,
       height: 115.0,
       child: Card(
-        color: Colors.black38,
+        color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.only(
             top: 8.0,
@@ -42,18 +42,63 @@ class _HouseCardState extends State<HouseCard> {
 
   List<Widget> presentHouse() {
     return <Widget>[
-      Text(widget.house.title,
-          style: Theme.of(context).textTheme.headlineSmall),
-      Text(widget.house.location, style: Theme.of(context).textTheme.bodySmall),
-      // Row(
-      //   children: <Widget>[
-      //     const Icon(
-      //       Icons.star,
-      //     ),
-      //     Text(' ${widget.dog.rating} / 10')
-      //   ],
-      // )
+      Row(
+        children: [
+          Text(widget.house.title,
+              style: Theme.of(context).textTheme.headlineSmall),
+        ],
+      ),
+      surfaceAndLocation(),
+      createdDate(),
+      lastPriceChangedAt()
     ];
+  }
+
+  Row lastPriceChangedAt() {
+    return Row(
+      children: [
+        Row(
+          children: [
+            const Icon(
+              Icons.refresh,
+              size: 14,
+            ),
+            Text(" Ostatnia zmiana ceny: ${widget.house.lastPriceChangedAt}")
+          ],
+        )
+      ],
+    );
+  }
+
+  Row createdDate() {
+    return Row(
+      children: [
+        Row(
+          children: [
+            const Icon(
+              Icons.add_box_outlined,
+              size: 14,
+            ),
+            Text(" Dodano: ${widget.house.createdAt}")
+          ],
+        ),
+      ],
+    );
+  }
+
+  Row surfaceAndLocation() {
+    return Row(
+      children: <Widget>[
+        const Icon(Icons.square_foot),
+        Text("${widget.house.surface} m²  "),
+        Row(
+          children: <Widget>[
+            const Icon(Icons.location_on),
+            Text(widget.house.location)
+          ],
+        )
+      ],
+    );
   }
 
   @override
