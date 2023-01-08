@@ -70,7 +70,7 @@ class _HouseCardState extends State<HouseCard> {
                 left: 50.0,
                 child: houseCard,
               ),
-              Positioned(top: 7.5, child: houseImage),
+              // Positioned(top: 7.5, child: houseImage),
             ],
           ),
         ),

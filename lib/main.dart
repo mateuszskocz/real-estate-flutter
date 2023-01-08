@@ -32,10 +32,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  List<House> houses = []..add(House("title", "location", "link", "surface",
-      "createdAt", "lastPriceChangedAt", "lastSeenAt"));
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         child: Center(
-          child: HouseList(houses),
+          child: HouseList(),
         ),
       ),
     );
