@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:real_estate_flutter/price_model.dart';
 
 import 'house_model.dart';
 
@@ -42,16 +43,37 @@ class _HouseCardState extends State<HouseCard> {
 
   List<Widget> presentHouse() {
     return <Widget>[
-      Row(
-        children: [
-          Text(widget.house.title,
-              style: Theme.of(context).textTheme.headlineSmall),
-        ],
-      ),
-      surfaceAndLocation(),
-      createdDate(),
-      lastPriceChangedAt()
+      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        Expanded(
+          child: Column(
+            children: [
+              Row(children: [
+                Text(widget.house.title,
+                    style: Theme.of(context).textTheme.headlineSmall)
+              ]),
+              surfaceAndLocation(),
+              createdDate(),
+              lastPriceChangedAt(),
+            ],
+          ),
+        ),
+        //prices
+        getPricesColumn(widget.house.prices)
+        // new Text("right"),
+      ]),
     ];
+  }
+
+  Widget getPricesColumn(List<Price> prices) {
+    List<Row> list = <Row>[];
+
+    for (Price price in prices) {
+      Text text = Text("${price.createdAt} -  ${price.price}");
+      var row = Row(children: [text]);
+      list.add(row);
+    }
+
+    return Column(children: list);
   }
 
   Row lastPriceChangedAt() {
