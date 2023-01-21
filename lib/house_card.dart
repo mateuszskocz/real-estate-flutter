@@ -62,22 +62,35 @@ class _HouseCardState extends State<HouseCard> {
     );
   }
 
-  ConstrainedBox image() {
+  Widget image() {
     var imageBase64 = widget.house.imageBase64;
 
     return ConstrainedBox(
         constraints: const BoxConstraints(
           minWidth: 100,
-          maxHeight: 80,
+          maxHeight: 180,
         ),
         child: SizedBox(
             width: 100,
             child: imageBase64 == null
                 ? const Icon(Icons.no_photography)
-                : Container(
-                    color: Colors.white,
-                    padding: EdgeInsets.all(5),
-                    child: Image.memory(base64Decode(imageBase64)))));
+                : realImage(imageBase64)
+        ));
+  }
+
+  Container realImage(String imageBase64) {
+    return Container(
+        color: Colors.white,
+        padding: EdgeInsets.all(5),
+        child: GestureDetector(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return DetailScreen(Image.memory(base64Decode(imageBase64)));
+              }));
+            },
+            child: Hero(
+                tag: "houseImg",
+                child: Image.memory(base64Decode(imageBase64)))));
   }
 
   Widget getPricesColumn(List<Price> prices) {
@@ -174,6 +187,29 @@ class _HouseCardState extends State<HouseCard> {
           fit: BoxFit.cover,
           image: NetworkImage(renderUrl ?? ''),
         ),
+      ),
+    );
+  }
+}
+
+class DetailScreen extends StatefulWidget {
+  Image image;
+
+  DetailScreen(this.image);
+
+  @override
+  State<StatefulWidget> createState() => _DetailScreenState();
+}
+
+class _DetailScreenState extends State<DetailScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pop(context);
+      },
+      child: Center(
+        child: Hero(tag: 'imageHero', child: widget.image),
       ),
     );
   }
