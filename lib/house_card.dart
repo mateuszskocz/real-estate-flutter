@@ -41,7 +41,9 @@ class _HouseCardState extends State<HouseCard> {
     return <Widget>[
       Row(children: [
         Column(children: [FittedBox(child: image())]),
-        Expanded(child: houseDetails()),
+        SizedBox(
+            width: MediaQuery.of(context).size.width * 0.6,
+            child: houseDetails()),
         //prices
         getPricesColumn(widget.house.prices)
         // new Text("right"),
@@ -81,7 +83,7 @@ class _HouseCardState extends State<HouseCard> {
   Container realImage(String imageBase64) {
     return Container(
         color: Colors.white,
-        padding: EdgeInsets.all(5),
+        padding: const EdgeInsets.all(5),
         child: GestureDetector(
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
