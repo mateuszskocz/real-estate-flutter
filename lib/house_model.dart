@@ -10,9 +10,19 @@ class House {
   final String lastPriceChangedAt;
   final String lastSeenAt;
   final List<Price> prices;
+  final String? imageBase64;
 
-  House(this.id, this.title, this.location, this.link, this.surface,
-      this.createdAt, this.lastPriceChangedAt, this.lastSeenAt, this.prices);
+  House(
+      this.id,
+      this.title,
+      this.location,
+      this.link,
+      this.surface,
+      this.createdAt,
+      this.lastPriceChangedAt,
+      this.lastSeenAt,
+      this.prices,
+      this.imageBase64);
 
   factory House.fromJson(var json) {
     List<dynamic> rawPrices = json['prices'];
@@ -21,7 +31,6 @@ class House {
       var price = Price.fromJson(rawPrice);
       prices.add(price);
     }
-
     return House(
         json['id'],
         json['title'],
@@ -31,7 +40,7 @@ class House {
         json['createdAt'],
         json['lastPriceChangedAt'],
         json['lastSeenAt'],
-        prices)
-    ;
+        prices,
+        json['imageBase64']);
   }
 }

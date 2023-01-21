@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:real_estate_flutter/price_model.dart';
 
@@ -21,19 +23,13 @@ class _HouseCardState extends State<HouseCard> {
 
   Widget get houseCard {
     return SizedBox(
-      width: 1000.0,
-      height: 115.0,
+      width: MediaQuery.of(context).size.width,
+      height: 400.0,
       child: Card(
         color: Colors.white,
         child: Padding(
-          padding: const EdgeInsets.only(
-            top: 8.0,
-            bottom: 8.0,
-            left: 64.0,
-          ),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: presentHouse(),
           ),
         ),
@@ -43,25 +39,45 @@ class _HouseCardState extends State<HouseCard> {
 
   List<Widget> presentHouse() {
     return <Widget>[
-      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Expanded(
-          child: Column(
-            children: [
-              Row(children: [
-                Text(widget.house.title,
-                    style: Theme.of(context).textTheme.headlineSmall)
-              ]),
-              surfaceAndLocation(),
-              createdDate(),
-              lastPriceChangedAt(),
-            ],
-          ),
-        ),
+      Row(children: [
+        Column(children: [FittedBox(child: image())]),
+        Expanded(child: houseDetails()),
         //prices
         getPricesColumn(widget.house.prices)
         // new Text("right"),
       ]),
     ];
+  }
+
+  Column houseDetails() {
+    return Column(
+      children: [
+        SizedBox(
+            child: Text(widget.house.title,
+                style: Theme.of(context).textTheme.headlineSmall)),
+        surfaceAndLocation(),
+        createdDate(),
+        lastPriceChangedAt(),
+      ],
+    );
+  }
+
+  ConstrainedBox image() {
+    var imageBase64 = widget.house.imageBase64;
+
+    return ConstrainedBox(
+        constraints: const BoxConstraints(
+          minWidth: 100,
+          maxHeight: 80,
+        ),
+        child: SizedBox(
+            width: 100,
+            child: imageBase64 == null
+                ? const Icon(Icons.no_photography)
+                : Container(
+                    color: Colors.white,
+                    padding: EdgeInsets.all(5),
+                    child: Image.memory(base64Decode(imageBase64)))));
   }
 
   Widget getPricesColumn(List<Price> prices) {
