@@ -1,9 +1,23 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'house_list.dart';
-import 'house_model.dart';
+
+
+class DevHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+  }
+
+}
+
 
 void main() {
+  HttpOverrides.global = new DevHttpOverrides();
+
   runApp(const MyApp());
 }
 

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:real_estate_flutter/house_page.dart';
@@ -54,7 +53,10 @@ class _HouseListState extends State<HouseList> {
   }
 
   Future<HousePage> fetchPost() async {
-    Uri url = Uri.https('vps571103.ovh.net:9010', '/houses/changed', {"image": "1"});
+    Uri url = Uri.parse("https://vps571103.ovh.net:9010/houses/changed?image=1");
+    // Uri url = Uri.https('vps571103.ovh.net:9010', '/houses/changed', {"image": "1"});
+    print("Calling server... ${url}");
+
     final response = await http.get(url);
     if (response.statusCode == 200) {
       var responseBody = jsonDecode(utf8.decode(response.bodyBytes));
